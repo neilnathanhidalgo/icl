@@ -3,3 +3,13 @@
 **idea**
 /api-user/target/
 /api-car/target/
+/configserver/target/
+/eureka/target/
+/zuulone/target/
+/zuultwo/target/
+/gateway/target/
+/entity/target/
+/shared/target/
+/dao/target/
+/service/target/
+/api-bike/target/

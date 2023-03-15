@@ -4,10 +4,31 @@
  */
 package gob.pe.icl.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 /**
  *
  * @author Usuario
  */
-public class Bike {
-    
+@Component
+@Scope("prototype")
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Entity
+@Table(catalog="develtrex",schema="develtrex",name = "bike")
+public class Bike extends GlobalEntityPkNumeric implements Serializable {
+    @Column(name = "brand")
+    private String brand;
+    @Column(name = "model")
+    private String model;
+    @Column(name = "userId")
+    private Long userId;
 }

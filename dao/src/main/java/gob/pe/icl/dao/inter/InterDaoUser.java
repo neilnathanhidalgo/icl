@@ -7,10 +7,6 @@ package gob.pe.icl.dao.inter;
 import com.jofrantoba.model.jpa.daoentity.InterCrud;
 import gob.pe.icl.entity.User;
 
-/**
- *
- * @author Usuario
- */
 public interface InterDaoUser extends InterCrud<User>{
     
 }

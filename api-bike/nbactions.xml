@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>run</actionName>
+        <packagings>
+            <packaging>jar</packaging>
+        </packagings>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+            <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+            <exec.appArgs></exec.appArgs>
+            <exec.mainClass>gob.pe.icl.api.user.Application</exec.mainClass>
+            <exec.executable>java</exec.executable>
+        </properties>
+    </action>
+    <action>
+        <actionName>debug</actionName>        
+        <packagings>
+            <packaging>jar</packaging>
+        </packagings>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m -agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
+            <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+            <exec.appArgs></exec.appArgs>
+            <exec.mainClass>gob.pe.icl.api.user.Application</exec.mainClass>
+            <exec.executable>java</exec.executable>
+            <jpda.listen>true</jpda.listen>
+        </properties>
+    </action>
+    <action>
+        <actionName>profile</actionName>
+        <packagings>
+            <packaging>jar</packaging>
+        </packagings>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+            <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+            <exec.mainClass>gob.pe.icl.api.user.Application</exec.mainClass>
+            <exec.executable>java</exec.executable>
+            <exec.appArgs></exec.appArgs>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-Clean and Build project without test</actionName>
+        <displayName>Clean and Build project without test</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>install</goal>
+            <goal>-DskipTests</goal>                
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-Resolve dependency</actionName>
+        <displayName>Resolve dependency</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>dependency:tree</goal>                
+            <goal>-U</goal>
+        </goals>
+    </action>  
+    <action>
+        <actionName>CUSTOM-springboot dev 0</actionName>
+        <displayName>springboot dev 0</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>            
+            <goal>-Dspring-boot.run.profiles=dev,dev0</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+        </properties>
+    </action>  
+    <action>
+        <actionName>CUSTOM-springboot dev 1</actionName>
+        <displayName>springboot dev 1</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>            
+            <goal>-Dspring-boot.run.profiles=dev,dev1</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-springboot dev 2</actionName>
+        <displayName>springboot dev 2</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>            
+            <goal>-Dspring-boot.run.profiles=dev,dev2</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-springboot tst 0</actionName>
+        <displayName>springboot tst 0</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>            
+            <goal>-Dspring-boot.run.profiles=tst,tst0</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+        </properties>
+    </action>  
+    <action>
+        <actionName>CUSTOM-springboot tst 1</actionName>
+        <displayName>springboot tst 1</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>            
+            <goal>-Dspring-boot.run.profiles=tst,tst1</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-springboot tst 2</actionName>
+        <displayName>springboot tst 2</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>            
+            <goal>-Dspring-boot.run.profiles=tst,tst2</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-springboot prd 0</actionName>
+        <displayName>springboot prd 0</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>            
+            <goal>-Dspring-boot.run.profiles=prd,prd0</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+        </properties>
+    </action>  
+    <action>
+        <actionName>CUSTOM-springboot prd 1</actionName>
+        <displayName>springboot prd 1</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>            
+            <goal>-Dspring-boot.run.profiles=prd,prd1</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-springboot prd 2</actionName>
+        <displayName>springboot prd 2</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>            
+            <goal>-Dspring-boot.run.profiles=prd,prd2</goal>
+        </goals>
+        <properties>
+            <exec.vmArgs>-Xmx128m -Xms64m -XX:+UseSerialGC -Xss512k -XX:MaxRAM=512m</exec.vmArgs>
+        </properties>
+    </action>
+</actions>

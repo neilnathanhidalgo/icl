@@ -11,8 +11,8 @@
     <properties>
         <exec.mainClass>gob.pe.icl.api.user.ApiUser</exec.mainClass>
         <version.spring-boot-dependencies>2.6.2</version.spring-boot-dependencies>
-        <spring-cloud.version>2021.0.0</spring-cloud.version>   
-        <version.spring-boot-maven-plugin>2.6.2</version.spring-boot-maven-plugin>     
+        <spring-cloud.version>2021.0.0</spring-cloud.version>
+        <version.spring-boot-maven-plugin>2.6.2</version.spring-boot-maven-plugin>
         <version.spring-boot-starter-actuator>2.6.2</version.spring-boot-starter-actuator>
         <version.spring-cloud-starter-bootstrap>3.1.0</version.spring-cloud-starter-bootstrap>
         <version.spring-cloud-starter-config>3.1.0</version.spring-cloud-starter-config>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>entity</artifactId>
-            <version>${project.version}</version> 
+            <version>${project.version}</version>
             <type>jar</type>
             <scope>compile</scope>
             <exclusions>
@@ -48,13 +48,13 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-api</artifactId>
                 </exclusion>
-            </exclusions> 
-        </dependency>                        
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>entity</artifactId>
             <version>${project.version}</version>
-            <classifier>sources</classifier> 
+            <classifier>sources</classifier>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -64,12 +64,12 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
-            </exclusions>                 
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>service</artifactId>
-            <version>${project.version}</version> 
+            <version>${project.version}</version>
             <type>jar</type>
             <scope>compile</scope>
             <exclusions>
@@ -82,12 +82,12 @@
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>                        
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>service</artifactId>
             <version>${project.version}</version>
-            <classifier>sources</classifier>                  
+            <classifier>sources</classifier>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -98,7 +98,11 @@
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>   
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -138,9 +142,9 @@
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>     
-    </dependencies>   
-     <build>
+        </dependency>
+    </dependencies>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

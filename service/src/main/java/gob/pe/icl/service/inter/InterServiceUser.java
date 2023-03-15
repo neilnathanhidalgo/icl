@@ -7,10 +7,10 @@ package gob.pe.icl.service.inter;
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.entity.User;
 
-/**
- *
- * @author Usuario
- */
+
 public interface InterServiceUser {
-    User saveUser(User entidad)throws UnknownException;    
+
+    User getUserById(Long id) throws UnknownException;
+    User saveUser(User entidad)throws UnknownException;
+
 }

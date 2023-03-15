@@ -21,8 +21,9 @@
         <module>dao</module>
         <module>service</module>
         <module>api-user</module>
-        <module>../../../devtest/jofrantoba-model-jpa</module>
         <module>api-car</module>
+        <module>../jofrantoba-model-jpa</module>
+        <module>api-bike</module>
     </modules>
     <properties>
     </properties>

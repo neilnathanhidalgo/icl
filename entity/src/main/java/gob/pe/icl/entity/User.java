@@ -5,9 +5,8 @@
 package gob.pe.icl.entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.context.annotation.Scope;
@@ -22,8 +21,9 @@ import org.springframework.stereotype.Component;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Entity
-@Table(catalog="demotiktok",schema="demotiktok",name = "user")
+@Table(catalog="develtrex",schema="develtrex",name = "user")
 public class User extends GlobalEntityPkNumeric implements Serializable{
+
     @Column(name = "name")
     private String name;
     @Column(name = "email")

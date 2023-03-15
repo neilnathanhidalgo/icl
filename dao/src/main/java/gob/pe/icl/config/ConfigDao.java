@@ -24,17 +24,17 @@ import org.springframework.context.annotation.Primary;
 public class ConfigDao {
     @Autowired
     @Primary
-    @Bean(name = "sessionFactory")    
-    public SessionFactory getSessionFactory(){        
+    @Bean(name = "sessionFactory")
+    public SessionFactory getSessionFactory(){
         List<String> packages=new ArrayList();
-        packages.add("gob.pe.icl.entity");        
+        packages.add("gob.pe.icl.entity");
         PSF.getInstance().buildPSF("mysql", getCnx(), packages);
         SessionFactory sesionFactory=PSF.getInstance().getPSF("mysql");
         return  sesionFactory;
     }
     
     private ConnectionPropertiesMysql getCnx(){
-        ConnectionPropertiesMysql cnx=new ConnectionPropertiesMysql("172.16.1.10",3306,"demotiktok","usertiktok","usertiktok");
+        ConnectionPropertiesMysql cnx=new ConnectionPropertiesMysql("127.0.0.1",3306,"develtrex","root","72087008");
         return cnx;
     }
 }
