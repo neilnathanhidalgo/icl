@@ -6,15 +6,17 @@ package gob.pe.icl.service.impl;
 
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.dao.inter.InterDaoUser;
+import gob.pe.icl.entity.Bike;
+import gob.pe.icl.entity.Car;
 import gob.pe.icl.entity.User;
+import gob.pe.icl.service.feign.BikeFeign;
+import gob.pe.icl.service.feign.CarFeign;
 import gob.pe.icl.service.inter.InterServiceUser;
 
-import java.net.ServerSocket;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.hibernate.Transaction;
 
@@ -24,6 +26,10 @@ public class ServiceUserImpl implements InterServiceUser {
 
     @Autowired
     private InterDaoUser dao;
+    @Autowired
+    CarFeign carFeign;
+    @Autowired
+    BikeFeign bikeFeign;
 
     @Override
     public User getUserById(Long id) throws  UnknownException {
@@ -51,6 +57,63 @@ public class ServiceUserImpl implements InterServiceUser {
             throw new UnknownException(ServiceUserImpl.class, "No se a podido crear el usuario");
         }
         return entidad;
+    }
+    @Override
+    public List<User> findAllUsers() throws  UnknownException {
+        Transaction tx = dao.getSession().beginTransaction();
+        List<User> users;
+        try {
+            users = dao.findAllUsers();
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo obtener los usuarios");
+        }
+        return users;
+    }
+    @Override
+    public User updateUser(User user) throws UnknownException {
+        Transaction tx = dao.getSession().beginTransaction();
+        User updatedUser;
+        try {
+            User existingUser = dao.findById(user.getId());
+            existingUser.setName(user.getName());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setVersion((new Date()).getTime());
+            dao.update(existingUser);
+            tx.commit();
+            updatedUser = existingUser;
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo actualizar el usuario con id " + user.getId());
+        }
+        return updatedUser;
+    }
+    @Override
+    public void deleteUser(Long userId) throws UnknownException {
+        Transaction tx = dao.getSession().beginTransaction();
+        try {
+            User user = dao.findById(userId);
+            if (user != null) {
+                dao.delete(user);
+                tx.commit();
+            } else {
+                throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar el usuario con id " + userId);
+            }
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo eliminar el usuario con id " + userId);
+        }
+    }
+    public Car saveCar(Long userId, Car car) throws UnknownException{
+        car.setUserId(userId);
+        Car carNew = carFeign.saveCar(car);
+        return  carNew;
+    }
+    public Bike saveBike(Long userId, Bike bike) throws UnknownException {
+        bike.setUserId(userId);
+        Bike bikeNew = bikeFeign.saveBike(bike);
+        return  bikeNew;
     }
 
 }

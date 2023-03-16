@@ -11,6 +11,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  *
  * @author Usuario
@@ -23,5 +25,12 @@ public class DaoUser extends AbstractJpaDao<User>
         super();
         setClazz(User.class);
         this.setSessionFactory(sessionFactory);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return getCurrentSession()
+                .createQuery("SELECT c FROM User c", User.class)
+                .getResultList();
     }
 }

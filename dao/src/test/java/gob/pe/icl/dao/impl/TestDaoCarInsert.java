@@ -2,9 +2,7 @@ package gob.pe.icl.dao.impl;
 
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.dao.inter.InterDaoCar;
-import gob.pe.icl.dao.inter.InterDaoUser;
 import gob.pe.icl.entity.Car;
-import gob.pe.icl.entity.User;
 import org.hibernate.Transaction;
 import org.junit.Test;
 

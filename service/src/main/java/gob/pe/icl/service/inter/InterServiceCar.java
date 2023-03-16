@@ -9,8 +9,11 @@ import java.util.List;
 public interface InterServiceCar {
 
     Car getCarById(Long id) throws UnknownException;
-    List<Car> findAll() throws UnknownException;
+    List<Car> findAllCars() throws UnknownException;
     Car saveCar(Car car) throws UnknownException;
+    Car updateCar(Car car) throws UnknownException;
+    void deleteCar(Long id) throws UnknownException;
     List<Car> findByUserId(Long userId) throws UnknownException;
+
 
 }

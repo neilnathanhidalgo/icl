@@ -20,6 +20,33 @@ public class CarController {
         carNew = interServiceCar.saveCar(car);
         return ResponseEntity.ok(carNew);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Car> getCarById(@PathVariable Long id) throws UnknownException {
+        if(interServiceCar.getCarById(id) == null)
+            return ResponseEntity.notFound().build();
+        Car car = interServiceCar.getCarById(id);
+        return ResponseEntity.ok(car);
+    }
+    @GetMapping()
+    public ResponseEntity<List<Car>> findAllCars() throws UnknownException{
+        if(interServiceCar.findAllCars() == null)
+            return ResponseEntity.notFound().build();
+        List<Car> cars = interServiceCar.findAllCars();
+        return ResponseEntity.ok(cars);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Car> updateCar(@PathVariable Long id, @RequestBody Car car) throws UnknownException {
+        car.setId(id);
+        Car updatedCar = interServiceCar.updateCar(car);
+        return ResponseEntity.ok(updatedCar);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCar(@PathVariable Long id) throws UnknownException {
+        if(interServiceCar.getCarById(id) == null)
+            return ResponseEntity.notFound().build();
+        interServiceCar.deleteCar(id);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/byuser/{userId}")
     public ResponseEntity<List<Car>> findByUserId(@PathVariable("userId") Long userId) throws UnknownException {

@@ -144,13 +144,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-core</artifactId>
-            <version>11.5</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-openfeign-core</artifactId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>4.0.1</version>
         </dependency>
     </dependencies>
     <build>

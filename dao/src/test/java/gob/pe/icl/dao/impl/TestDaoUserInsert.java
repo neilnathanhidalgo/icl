@@ -18,7 +18,7 @@ public class TestDaoUserInsert extends TestBaseDao{
     @Test
     public void createEntity1() throws UnknownException{                
         User entity = contextEntity.getBean(User.class);        
-        InterDaoUser dao = contextDao.getBean(DaoUser.class);          
+        InterDaoUser dao = contextDao.getBean(DaoUser.class);
         entity.setName("Jonathan"); 
         entity.setEmail("chescot2302@gmail.com");
         Transaction tx=dao.getSession().beginTransaction();

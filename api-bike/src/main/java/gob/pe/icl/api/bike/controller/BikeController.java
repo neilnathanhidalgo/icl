@@ -22,6 +22,34 @@ public class BikeController {
         bikeNew = interServiceBike.saveBike(bike);
         return ResponseEntity.ok(bikeNew);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Bike> getBikeById(@PathVariable Long id) throws UnknownException {
+        if(interServiceBike .getBikeById(id) == null)
+            return ResponseEntity.notFound().build();
+        Bike bike = interServiceBike.getBikeById(id);
+        return ResponseEntity.ok(bike);
+    }
+    @GetMapping()
+    public ResponseEntity<List<Bike>> findAllBikes() throws UnknownException{
+        if(interServiceBike.findAllBikes() == null)
+            return ResponseEntity.notFound().build();
+        List<Bike> bikes = interServiceBike.findAllBikes();
+        return ResponseEntity.ok(bikes);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Bike> updateCar(@PathVariable Long id, @RequestBody Bike bike) throws UnknownException {
+        bike.setId(id);
+        Bike updatedBike = interServiceBike.updateBike(bike);
+        return ResponseEntity.ok(updatedBike);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCar(@PathVariable Long id) throws UnknownException {
+        if(interServiceBike.getBikeById(id) == null)
+            return ResponseEntity.notFound().build();
+        interServiceBike.deleteBike(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/byuser/{userId}")
     public ResponseEntity<List<Bike>> findByUserId(@PathVariable("userId") Long userId) throws UnknownException {
         List<Bike> bikes = interServiceBike.findByUserId(userId);
