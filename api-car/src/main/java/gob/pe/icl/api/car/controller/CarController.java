@@ -48,7 +48,7 @@ public class CarController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/byuser/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<Car>> findByUserId(@PathVariable("userId") Long userId) throws UnknownException {
         List<Car> cars = interServiceCar.findByUserId(userId);
         if (cars.isEmpty())

@@ -52,7 +52,15 @@
             <artifactId>slf4j-api</artifactId>            
             <version>${version.slf4j-api}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+
     </dependencies>
+
     <build>
         <plugins>
             <plugin>

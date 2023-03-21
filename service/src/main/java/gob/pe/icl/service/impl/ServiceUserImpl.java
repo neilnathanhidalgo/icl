@@ -14,11 +14,14 @@ import gob.pe.icl.service.feign.CarFeign;
 import gob.pe.icl.service.inter.InterServiceUser;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.hibernate.Transaction;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 
 @Service
@@ -115,5 +118,34 @@ public class ServiceUserImpl implements InterServiceUser {
         Bike bikeNew = bikeFeign.saveBike(bike);
         return  bikeNew;
     }
+    public List<Bike> findBikesByUserId(Long userId) throws UnknownException {
+        List<Bike> userBikes = bikeFeign.findBikesByUserId(userId);
+        return userBikes;
+    }
+    public List<Car> findCarsByUserId(Long userId) throws UnknownException {
+        List<Car> userCars = carFeign.findCarsByUserId(userId);
+        return userCars;
+    }
+    public Map<String, Object> findVehicles(Long userId) throws UnknownException {
+        Transaction tx = dao.getSession().beginTransaction();
+        User user = dao.findById(userId);
+        List<Bike> bikes = bikeFeign.findBikesByUserId(userId);
+        List<Car> cars = carFeign.findCarsByUserId(userId);
+        Map<String, Object> result = new HashMap<>();
+        if (user == null) {
+            result.put("Mensaje", "No existe el usuario");
+            return result;
+        }
+        result.put("User", user);
+        if(cars.isEmpty())
+            result.put("Mensaje", "Este usuario no tiene autos");
+        else
+            result.put("Cars", cars);
+        if(bikes.isEmpty())
+            result.put("Mensaje", "Este usuario no tiene motos");
+        else
+            result.put("Bikes", bikes);
 
+        return result;
+    }
 }

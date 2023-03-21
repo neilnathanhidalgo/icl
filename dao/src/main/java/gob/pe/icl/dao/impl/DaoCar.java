@@ -26,7 +26,7 @@ public class DaoCar extends AbstractJpaDao<Car>
                 .getResultList();
     }
     @Override
-    public List<Car> findAll() {
+    public List<Car> findAll() {   
         return getCurrentSession()
                 .createQuery("SELECT c FROM Car c", Car.class)
                 .getResultList();
