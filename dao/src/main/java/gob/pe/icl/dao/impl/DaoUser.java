@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package gob.pe.icl.dao.impl;
 
 import com.jofrantoba.model.jpa.daoentity.AbstractJpaDao;
@@ -13,14 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- *
- * @author Usuario
- */
 @Repository
 public class DaoUser extends AbstractJpaDao<User>
         implements InterDaoUser {
-    
+
     public DaoUser(@Qualifier("sessionFactory")SessionFactory sessionFactory) {
         super();
         setClazz(User.class);
@@ -34,3 +27,4 @@ public class DaoUser extends AbstractJpaDao<User>
                 .getResultList();
     }
 }
+

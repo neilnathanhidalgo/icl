@@ -92,6 +92,7 @@ public class ServiceUserImpl implements InterServiceUser {
         }
         return updatedUser;
     }
+
     @Override
     public void deleteUser(Long userId) throws UnknownException {
         Transaction tx = dao.getSession().beginTransaction();
@@ -110,21 +111,17 @@ public class ServiceUserImpl implements InterServiceUser {
     }
     public Car saveCar(Long userId, Car car) throws UnknownException{
         car.setUserId(userId);
-        Car carNew = carFeign.saveCar(car);
-        return  carNew;
+        return carFeign.saveCar(car);
     }
     public Bike saveBike(Long userId, Bike bike) throws UnknownException {
         bike.setUserId(userId);
-        Bike bikeNew = bikeFeign.saveBike(bike);
-        return  bikeNew;
+        return bikeFeign.saveBike(bike);
     }
     public List<Bike> findBikesByUserId(Long userId) throws UnknownException {
-        List<Bike> userBikes = bikeFeign.findBikesByUserId(userId);
-        return userBikes;
+        return bikeFeign.findBikesByUserId(userId);
     }
     public List<Car> findCarsByUserId(Long userId) throws UnknownException {
-        List<Car> userCars = carFeign.findCarsByUserId(userId);
-        return userCars;
+        return carFeign.findCarsByUserId(userId);
     }
     public Map<String, Object> findVehicles(Long userId) throws UnknownException {
         Transaction tx = dao.getSession().beginTransaction();

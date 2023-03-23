@@ -22,8 +22,8 @@
         <module>service</module>
         <module>api-user</module>
         <module>api-car</module>
-        <module>../jofrantoba-model-jpa</module>
         <module>api-bike</module>
+        <module>../jofrantoba-model-jpa</module>
     </modules>
     <properties>
     </properties>

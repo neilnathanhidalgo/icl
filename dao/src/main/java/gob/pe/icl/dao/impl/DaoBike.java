@@ -13,12 +13,6 @@ import java.util.List;
 public class DaoBike extends AbstractJpaDao<Bike>
         implements InterDaoBike {
 
-    public DaoBike(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
-        super();
-        setClazz(Bike.class);
-        this.setSessionFactory(sessionFactory);
-    }
-
     @Override
     public List<Bike> findByUserId(Long userId) {
         return getCurrentSession()
