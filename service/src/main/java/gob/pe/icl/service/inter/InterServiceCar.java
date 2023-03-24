@@ -13,7 +13,6 @@ public interface InterServiceCar {
     Car saveCar(Car car) throws UnknownException;
     Car updateCar(Car car) throws UnknownException;
     void deleteCar(Long id) throws UnknownException;
-    List<Car> findByUserId(Long userId) throws UnknownException;
 
 
 }

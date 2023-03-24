@@ -20,13 +20,6 @@ public class DaoBike extends AbstractJpaDao<Bike>
     }
 
     @Override
-    public List<Bike> findByUserId(Long userId) {
-        return getCurrentSession()
-                .createQuery("SELECT c FROM Bike c WHERE c.userId = :userId", Bike.class)
-                .setParameter("userId", userId)
-                .getResultList();
-    }
-    @Override
     public List<Bike> findAll() {
         return getCurrentSession()
                 .createQuery("SELECT c FROM Bike c", Bike.class)

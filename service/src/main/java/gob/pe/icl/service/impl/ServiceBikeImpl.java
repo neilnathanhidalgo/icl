@@ -59,19 +59,6 @@ public class ServiceBikeImpl implements InterServiceBike {
         return bike;
     }
     @Override
-    public List<Bike> findByUserId(Long userId) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
-        List<Bike> bikes;
-        try {
-            bikes = dao.findByUserId(userId);
-            tx.commit();
-        } catch (Exception ex) {
-            tx.rollback();
-            throw new UnknownException(ServiceCarImpl.class, "No se pudieron obtener las motos del usuario con id " + userId);
-        }
-        return bikes;
-    }
-    @Override
     public Bike updateBike(Bike bike) throws UnknownException {
         Transaction tx = dao.getSession().beginTransaction();
         Bike updatedBike;

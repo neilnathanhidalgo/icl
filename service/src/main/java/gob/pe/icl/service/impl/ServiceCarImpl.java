@@ -2,6 +2,7 @@ package gob.pe.icl.service.impl;
 
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.dao.inter.InterDaoCar;
+import gob.pe.icl.dao.inter.InterDaoUser;
 import gob.pe.icl.entity.Car;
 import gob.pe.icl.entity.User;
 import gob.pe.icl.service.inter.InterServiceCar;
@@ -16,14 +17,16 @@ import java.util.List;
 public class ServiceCarImpl implements InterServiceCar {
 
     @Autowired
-    private InterDaoCar dao;
+    private InterDaoCar daoCar;
+    @Autowired
+    private InterDaoUser daoUser;
 
     @Override
     public Car getCarById(Long id) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoCar.getSession().beginTransaction();
         Car car;
         try {
-            car = dao.findById(id);
+            car = daoCar.findById(id);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -33,10 +36,10 @@ public class ServiceCarImpl implements InterServiceCar {
     }
     @Override
     public List<Car> findAllCars() throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoCar.getSession().beginTransaction();
         List<Car> cars;
         try {
-            cars = dao.findAll();
+            cars = daoCar.findAll();
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -46,11 +49,11 @@ public class ServiceCarImpl implements InterServiceCar {
     }
     @Override
     public Car saveCar(Car car) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoCar.getSession().beginTransaction();
         try {
             car.setIsPersistente(Boolean.TRUE);
             car.setVersion((new Date()).getTime());
-            dao.save(car);
+            daoCar.save(car);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -59,28 +62,15 @@ public class ServiceCarImpl implements InterServiceCar {
         return car;
     }
     @Override
-    public List<Car> findByUserId(Long userId) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
-        List<Car> cars;
-        try {
-            cars = dao.findByUserId(userId);
-            tx.commit();
-        } catch (Exception ex) {
-            tx.rollback();
-            throw new UnknownException(ServiceCarImpl.class, "No se pudieron obtener los carros del usuario con id " + userId);
-        }
-        return cars;
-    }
-    @Override
     public Car updateCar(Car car) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoCar.getSession().beginTransaction();
         Car updatedCar;
         try {
-            Car existingCar = dao.findById(car.getId());
+            Car existingCar = daoCar.findById(car.getId());
             existingCar.setBrand(car.getBrand());
             existingCar.setModel(car.getModel());
             existingCar.setVersion((new Date()).getTime());
-            dao.update(existingCar);
+            daoCar.update(existingCar);
             tx.commit();
             updatedCar = existingCar;
         } catch (Exception ex) {
@@ -91,11 +81,11 @@ public class ServiceCarImpl implements InterServiceCar {
     }
     @Override
     public void deleteCar(Long id) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoCar.getSession().beginTransaction();
         try {
-            Car car = dao.findById(id);
+            Car car = daoCar.findById(id);
             if (car != null) {
-                dao.delete(car);
+                daoCar.delete(car);
                 tx.commit();
             } else {
                 throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar el auto con id " + id);

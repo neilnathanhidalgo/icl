@@ -6,6 +6,5 @@ import gob.pe.icl.entity.Car;
 import java.util.List;
 
 public interface InterDaoCar extends InterCrud<Car> {
-    List<Car> findByUserId(Long userId);
     List<Car> findAll();
 }

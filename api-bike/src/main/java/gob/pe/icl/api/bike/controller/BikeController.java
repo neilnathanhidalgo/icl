@@ -49,13 +49,4 @@ public class BikeController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Bike>> findByUserId(@PathVariable("userId") Long userId) throws UnknownException {
-        List<Bike> bikes = interServiceBike.findByUserId(userId);
-        if (bikes.isEmpty())
-            return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(bikes);
-
-    }
-
 }

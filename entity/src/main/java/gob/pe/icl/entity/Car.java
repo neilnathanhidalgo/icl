@@ -9,9 +9,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Component
@@ -25,6 +23,7 @@ public class Car extends GlobalEntityPkNumeric implements Serializable {
     private String brand;
     @Column(name = "model")
     private String model;
-    @Column(name = "userId")
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private User user;
 }

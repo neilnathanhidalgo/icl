@@ -17,14 +17,6 @@ public class DaoCar extends AbstractJpaDao<Car>
         setClazz(Car.class);
         this.setSessionFactory(sessionFactory);
     }
-
-    @Override
-    public List<Car> findByUserId(Long userId) {
-        return getCurrentSession()
-                .createQuery("SELECT c FROM Car c WHERE c.userId = :userId", Car.class)
-                .setParameter("userId", userId)
-                .getResultList();
-    }
     @Override
     public List<Car> findAll() {   
         return getCurrentSession()

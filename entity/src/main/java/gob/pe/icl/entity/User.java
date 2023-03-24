@@ -5,6 +5,8 @@
 package gob.pe.icl.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 import lombok.Data;
@@ -28,4 +30,10 @@ public class User extends GlobalEntityPkNumeric implements Serializable{
     private String name;
     @Column(name = "email")
     private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Car> cars = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bike> bikes = new ArrayList<>();
 }

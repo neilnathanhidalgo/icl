@@ -12,7 +12,6 @@ public interface InterServiceBike {
     Bike saveBike(Bike bike) throws UnknownException;
     Bike updateBike(Bike bike) throws UnknownException;
     void deleteBike(Long id) throws UnknownException;
-    List<Bike> findByUserId(Long userId) throws UnknownException;
 
 
 }
