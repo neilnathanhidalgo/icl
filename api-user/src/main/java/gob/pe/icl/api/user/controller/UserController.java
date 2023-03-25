@@ -10,39 +10,37 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
 @Log4j2
+@Validated
 public class UserController {
     @Autowired
-    InterServiceUser interServiceUser;
-
-    @Autowired
-    ServiceUserImpl serviceUser;
-
+    private InterServiceUser interServiceUser;
     @PostMapping()
     public ResponseEntity<User> save(@RequestBody User user) throws UnknownException {
-        User userNew;
-        userNew = interServiceUser.saveUser(user);
-        return ResponseEntity.ok(userNew);
+        return ResponseEntity.ok(interServiceUser.saveUser(user));
     }
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) throws UnknownException {
-        if(interServiceUser.getUserById(userId) == null)
-            return ResponseEntity.notFound().build();
         User user = interServiceUser.getUserById(userId);
+        if(user == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(user);
     }
     @GetMapping()
-    public ResponseEntity<List<User>> findAllUsers() throws UnknownException{
-        if(interServiceUser.findAllUsers() == null)
+    public ResponseEntity<Collection<User>> findAllUsers() throws UnknownException{
+        if(interServiceUser.findAll().isEmpty())
             return ResponseEntity.notFound().build();
-        List<User> users = interServiceUser.findAllUsers();
+        Collection<User> users = interServiceUser.findAll();
         return ResponseEntity.ok(users);
     }
     @PutMapping("/{userId}")
@@ -64,9 +62,9 @@ public class UserController {
     @PostMapping("/savecar/{userId}")
     @CircuitBreaker(name = "api-car-dev", fallbackMethod = "fallbackPostCarMethod")
     public ResponseEntity<Car> saveCar(@PathVariable("userId") Long userId, @RequestBody Car car) throws UnknownException {
-        if(serviceUser.getUserById(userId) == null)
+        if(interServiceUser.getUserById(userId) == null)
             return ResponseEntity.notFound().build();
-        Car carNew = serviceUser.saveCar(userId, car);
+        Car carNew = interServiceUser.saveCar(userId, car);
         return ResponseEntity.ok(carNew);
     }
     public ResponseEntity<Object> fallbackPostCarMethod(Long userId, Car car, Throwable e) {
@@ -76,9 +74,9 @@ public class UserController {
     @PostMapping("/savebike/{userId}")
     @CircuitBreaker(name = "api-bike-dev", fallbackMethod = "fallbackPostBikeMethod")
     public ResponseEntity<Bike> saveBike(@PathVariable("userId") Long userId, @RequestBody Bike bike) throws UnknownException {
-        if(serviceUser.getUserById(userId) == null)
+        if(interServiceUser.getUserById(userId) == null)
             return ResponseEntity.notFound().build();
-        Bike bikeNew = serviceUser.saveBike(userId, bike);
+        Bike bikeNew = interServiceUser.saveBike(userId, bike);
         return  ResponseEntity.ok(bikeNew);
     }
     public ResponseEntity<Object> fallbackPostBikeMethod(Long userId, Bike bike, Throwable e) {
@@ -87,18 +85,18 @@ public class UserController {
     }
     @GetMapping("/bikes/{userId}")
     @CircuitBreaker(name = "api-bike-dev", fallbackMethod = "fallbackGetMethod")
-    public ResponseEntity<List<Bike>> findBikesByUserId(@PathVariable("userId") Long userId) throws UnknownException {
-        if(serviceUser.getUserById(userId) == null)
+    public ResponseEntity<Collection<Bike>> findBikesByUserId(@PathVariable("userId") Long userId) throws UnknownException {
+        if(interServiceUser.getUserById(userId) == null)
             return ResponseEntity.notFound().build();
-        List<Bike> userBikes = serviceUser.findBikesByUserId(userId);
+        Collection<Bike> userBikes = interServiceUser.findBikesByUserId(userId);
         return ResponseEntity.ok(userBikes);
     }
     @GetMapping("/cars/{userId}")
     @CircuitBreaker(name = "api-car-dev", fallbackMethod = "fallbackGetMethod")
-    public ResponseEntity<List<Car>> findCarsByUserId(@PathVariable("userId") Long userId) throws UnknownException {
-        if(serviceUser.getUserById(userId) == null)
+    public ResponseEntity<Collection<Car>> findCarsByUserId(@PathVariable("userId") Long userId) throws UnknownException {
+        if(interServiceUser.getUserById(userId) == null)
             return ResponseEntity.notFound().build();
-        List<Car> userCars = serviceUser.findCarsByUserId(userId);
+        Collection<Car> userCars = interServiceUser.findCarsByUserId(userId);
         return ResponseEntity.ok(userCars);
     }
     public ResponseEntity<Object> fallbackGetMethod(Long userId, Throwable e) {
@@ -107,7 +105,7 @@ public class UserController {
     }
     @GetMapping("/all/{userId}")
     public ResponseEntity<Map<String, Object>> findVehicles(@PathVariable("userId") Long userId) throws UnknownException {
-        Map<String, Object> result = serviceUser.findVehicles(userId);
+        Map<String, Object> result = interServiceUser.findVehicles(userId);
         return ResponseEntity.ok(result);
     }
 }

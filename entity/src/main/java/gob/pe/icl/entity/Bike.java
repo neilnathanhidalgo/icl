@@ -4,6 +4,7 @@
  */
 package gob.pe.icl.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.context.annotation.Scope;
@@ -27,7 +28,8 @@ public class Bike extends GlobalEntityPkNumeric implements Serializable {
     private String brand;
     @Column(name = "model")
     private String model;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
+    @JsonBackReference
     private User user;
 }

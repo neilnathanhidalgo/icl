@@ -26,11 +26,4 @@ public class DaoUser extends AbstractJpaDao<User>
         setClazz(User.class);
         this.setSessionFactory(sessionFactory);
     }
-
-    @Override
-    public List<User> findAllUsers() {
-        return getCurrentSession()
-                .createQuery("SELECT c FROM User c", User.class)
-                .getResultList();
-    }
 }

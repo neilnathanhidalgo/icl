@@ -10,6 +10,5 @@ import gob.pe.icl.entity.User;
 import java.util.List;
 
 public interface InterDaoUser extends InterCrud<User>{
-    List<User> findAllUsers();
     
 }

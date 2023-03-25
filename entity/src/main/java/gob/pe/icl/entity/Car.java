@@ -4,6 +4,7 @@
  */
 package gob.pe.icl.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.context.annotation.Scope;
@@ -25,5 +26,6 @@ public class Car extends GlobalEntityPkNumeric implements Serializable {
     private String model;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JsonBackReference
     private User user;
 }
