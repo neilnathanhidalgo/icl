@@ -1,11 +1,13 @@
 package gob.pe.icl.api.user.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.entity.Bike;
 import gob.pe.icl.entity.Car;
 import gob.pe.icl.entity.User;
 import gob.pe.icl.service.impl.ServiceUserImpl;
 import gob.pe.icl.service.inter.InterServiceUser;
+import gob.pe.icl.views.PublicView;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class UserController {
         return ResponseEntity.ok(interServiceUser.saveUser(user));
     }
     @GetMapping("/{userId}")
+    @JsonView(PublicView.class)
     public ResponseEntity<User> getUserById(@PathVariable Long userId) throws UnknownException {
         User user = interServiceUser.getUserById(userId);
         if(user == null) {
@@ -37,6 +40,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
     @GetMapping()
+    @JsonView(PublicView.class)
     public ResponseEntity<Collection<User>> findAllUsers() throws UnknownException{
         if(interServiceUser.findAll().isEmpty())
             return ResponseEntity.notFound().build();

@@ -18,14 +18,14 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Entity
-@Table(catalog="develtrex",schema="develtrex",name = "car")
+@Table(schema="develtrex",name = "car")
 public class Car extends GlobalEntityPkNumeric implements Serializable {
     @Column(name = "brand")
     private String brand;
     @Column(name = "model")
     private String model;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User user;
 }

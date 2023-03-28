@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonView;
+import gob.pe.icl.views.PublicView;
 import lombok.Data;
 
 /**
@@ -22,7 +25,8 @@ import lombok.Data;
 public abstract class GlobalEntityPkNumeric implements Serializable{
     @Id    
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id")  
+    @Column(name = "id")
+    @JsonView(PublicView.class)
     private Long id;
     @Column(name = "version")
     private Long version;    

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -29,10 +30,10 @@ public class BikeController {
         return ResponseEntity.ok(bike);
     }
     @GetMapping()
-    public ResponseEntity<List<Bike>> findAllBikes() throws UnknownException{
+    public ResponseEntity<Collection<Bike>> findAllBikes() throws UnknownException{
         if(interServiceBike.findAllBikes() == null)
             return ResponseEntity.notFound().build();
-        List<Bike> bikes = interServiceBike.findAllBikes();
+        Collection<Bike> bikes = interServiceBike.findAllBikes();
         return ResponseEntity.ok(bikes);
     }
     @PutMapping("/{id}")

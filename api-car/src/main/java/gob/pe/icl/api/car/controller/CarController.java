@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -28,10 +29,10 @@ public class CarController {
         return ResponseEntity.ok(car);
     }
     @GetMapping()
-    public ResponseEntity<List<Car>> findAllCars() throws UnknownException{
+    public ResponseEntity<Collection<Car>> findAllCars() throws UnknownException{
         if(interServiceCar.findAllCars() == null)
             return ResponseEntity.notFound().build();
-        List<Car> cars = interServiceCar.findAllCars();
+        Collection<Car> cars = interServiceCar.findAllCars();
         return ResponseEntity.ok(cars);
     }
     @PutMapping("/{id}")

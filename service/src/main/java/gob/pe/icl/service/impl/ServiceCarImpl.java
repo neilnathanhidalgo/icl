@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +19,6 @@ public class ServiceCarImpl implements InterServiceCar {
 
     @Autowired
     private InterDaoCar daoCar;
-    @Autowired
-    private InterDaoUser daoUser;
 
     @Override
     public Car getCarById(Long id) throws UnknownException {
@@ -35,15 +34,15 @@ public class ServiceCarImpl implements InterServiceCar {
         return car;
     }
     @Override
-    public List<Car> findAllCars() throws UnknownException {
+    public Collection<Car> findAllCars() throws UnknownException {
         Transaction tx = daoCar.getSession().beginTransaction();
-        List<Car> cars;
+        Collection<Car> cars;
         try {
-            cars = daoCar.findAll();
+            cars = daoCar.allFields();
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
-            throw new UnknownException(ServiceCarImpl.class, "No se pudieron obtener todos los carros");
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo obtener los autos");
         }
         return cars;
     }

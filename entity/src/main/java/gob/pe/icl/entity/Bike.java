@@ -22,14 +22,14 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Entity
-@Table(catalog="develtrex",schema="develtrex",name = "bike")
+@Table(schema="develtrex",name = "bike")
 public class Bike extends GlobalEntityPkNumeric implements Serializable {
     @Column(name = "brand")
     private String brand;
     @Column(name = "model")
     private String model;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User user;
 }

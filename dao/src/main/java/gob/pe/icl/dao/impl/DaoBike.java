@@ -19,12 +19,4 @@ public class DaoBike extends AbstractJpaDao<Bike>
         this.setSessionFactory(sessionFactory);
     }
 
-    @Override
-    public List<Bike> findAll() {
-        return getCurrentSession()
-                .createQuery("SELECT c FROM Bike c", Bike.class)
-                .getResultList();
-    }
-
-
 }

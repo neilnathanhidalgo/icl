@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -32,15 +33,15 @@ public class ServiceBikeImpl implements InterServiceBike {
         return bike;
     }
     @Override
-    public List<Bike> findAllBikes() throws UnknownException {
+    public Collection<Bike> findAllBikes() throws UnknownException {
         Transaction tx = dao.getSession().beginTransaction();
-        List<Bike> bikes;
+        Collection<Bike> bikes;
         try {
-            bikes = dao.findAll();
+            bikes = dao.allFields();
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
-            throw new UnknownException(ServiceCarImpl.class, "No se pudieron obtener todos las motos");
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo obtener las motos");
         }
         return bikes;
     }

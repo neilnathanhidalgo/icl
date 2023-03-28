@@ -6,6 +6,5 @@ import gob.pe.icl.entity.Bike;
 import java.util.List;
 
 public interface InterDaoBike extends InterCrud<Bike> {
-    List<Bike> findAll();
 
 }
