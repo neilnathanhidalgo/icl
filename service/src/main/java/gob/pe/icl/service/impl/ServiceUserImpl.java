@@ -18,6 +18,7 @@ import gob.pe.icl.service.inter.InterServiceUser;
 import java.util.*;
 
 import gob.pe.icl.views.PublicView;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.hibernate.Transaction;
@@ -34,9 +35,6 @@ public class ServiceUserImpl implements InterServiceUser {
     private InterDaoCar daoCar;
     @Autowired
     private InterDaoBike daoBike;
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Override
     @JsonView(PublicView.class)
     public User getUserById(Long id) throws  UnknownException {
@@ -153,31 +151,34 @@ public class ServiceUserImpl implements InterServiceUser {
     }
     @Override
     @Transactional
-    public Collection<Car> findCarsByUserId(Long userId) throws UnknownException {
+    public List<Car> findCarsByUserId(Long user_id) throws UnknownException {
         Transaction tx = daoUser.getSession().beginTransaction();
         try {
-            User user = daoUser.findById(userId);
+            User user = daoUser.findById(user_id);
+            Hibernate.initialize(user.getCars());
+            List<Car> cars = user.getCars();
             if (user == null) {
-                throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar el usuario con id " + userId);
+                throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar el usuario con id " + user_id);
             }
-            Collection<Car> cars = user.getCars();
+
             tx.commit();
             return cars;
         } catch (Exception ex) {
             tx.rollback();
-            throw new UnknownException(ServiceUserImpl.class, "No se pudo llamar la lista de motos para el usuario con id " + userId);
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo llamar la lista de motos para el usuario con id " + user_id);
         }
     }
     @Override
     @Transactional
-    public Collection<Bike> findBikesByUserId(Long userId) throws UnknownException {
+    public List<Bike> findBikesByUserId(Long userId) throws UnknownException {
         Transaction tx = daoUser.getSession().beginTransaction();
         try {
             User user = daoUser.findById(userId);
+            Hibernate.initialize(user.getBikes());
+            List<Bike> bikes = user.getBikes();
             if (user == null) {
                 throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar el usuario con id " + userId);
             }
-            Collection<Bike> bikes = user.getBikes();
             tx.commit();
             return bikes;
         } catch (Exception ex) {
@@ -192,8 +193,8 @@ public class ServiceUserImpl implements InterServiceUser {
         Transaction tx = daoUser.getSession().beginTransaction();
         try {
             User user = daoUser.findById(userId);
-            Collection<Bike> bikes = user.getBikes();
-            Collection<Car> cars = user.getCars();
+            List<Bike> bikes = user.getBikes();
+            List<Car> cars = user.getCars();
             Map<String, Object> result = new HashMap<>();
             if (user == null) {
                 result.put("Mensaje", "No existe el usuario");

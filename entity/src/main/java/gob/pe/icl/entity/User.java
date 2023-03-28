@@ -4,18 +4,19 @@
  */
 package gob.pe.icl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
-import gob.pe.icl.views.FullView;
+import gob.pe.icl.views.BikeView;
+import gob.pe.icl.views.CarView;
 import gob.pe.icl.views.PublicView;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("prototype")
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=false)
 @Entity
 @Table(schema="develtrex",name = "user")
@@ -39,11 +41,11 @@ public class User extends GlobalEntityPkNumeric implements Serializable{
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    @JsonView(FullView.class)
-    private Collection<Car> cars = new ArrayList<>();
+    @JsonView(CarView.class)
+    @JsonIgnoreProperties({"user"})
+    private List<Car> cars = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    @JsonView(FullView.class)
-    private Collection<Bike> bikes = new ArrayList<>();
+    @JsonView(BikeView.class)
+    @JsonIgnoreProperties({"user"})
+    private List<Bike> bikes = new ArrayList<>();
 }

@@ -23,8 +23,8 @@ public interface InterServiceUser {
     void deleteUser(Long userId) throws UnknownException;
     Car saveCar(Long userId, Car car) throws UnknownException;
     Bike saveBike(Long userId, Bike bike) throws UnknownException;
-    Collection<Car> findCarsByUserId(Long userId) throws UnknownException;
-    Collection<Bike> findBikesByUserId(Long userId) throws UnknownException;
+    List<Car> findCarsByUserId(Long user_id) throws UnknownException;
+    List<Bike> findBikesByUserId(Long userId) throws UnknownException;
     Map<String, Object> findVehicles(Long userId) throws UnknownException;
 
 }

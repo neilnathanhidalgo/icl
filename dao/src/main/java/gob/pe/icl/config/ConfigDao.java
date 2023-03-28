@@ -1,7 +1,6 @@
 package gob.pe.icl.config;
 
 import com.jofrantoba.model.jpa.psf.PSF;
-import com.jofrantoba.model.jpa.psf.connection.ConnectionPropertiesMysql;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,8 +1,10 @@
 package gob.pe.icl.api.car.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.entity.Car;
 import gob.pe.icl.service.inter.InterServiceCar;
+import gob.pe.icl.views.PublicView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/car")
+@JsonView(PublicView.class)
 public class CarController {
     @Autowired
     InterServiceCar interServiceCar;
