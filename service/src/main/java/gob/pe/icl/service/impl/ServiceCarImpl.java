@@ -2,17 +2,15 @@ package gob.pe.icl.service.impl;
 
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.dao.inter.InterDaoCar;
-import gob.pe.icl.dao.inter.InterDaoUser;
 import gob.pe.icl.entity.Car;
-import gob.pe.icl.entity.User;
 import gob.pe.icl.service.inter.InterServiceCar;
+import org.hibernate.Hibernate;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class ServiceCarImpl implements InterServiceCar {
@@ -52,6 +50,7 @@ public class ServiceCarImpl implements InterServiceCar {
         try {
             car.setIsPersistente(Boolean.TRUE);
             car.setVersion((new Date()).getTime());
+            Hibernate.initialize(car.getUser());
             daoCar.save(car);
             tx.commit();
         } catch (Exception ex) {

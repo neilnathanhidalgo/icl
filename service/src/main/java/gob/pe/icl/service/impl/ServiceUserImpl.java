@@ -4,8 +4,6 @@
  */
 package gob.pe.icl.service.impl;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.dao.inter.InterDaoBike;
 import gob.pe.icl.dao.inter.InterDaoCar;
@@ -17,7 +15,6 @@ import gob.pe.icl.service.inter.InterServiceUser;
 
 import java.util.*;
 
-import gob.pe.icl.views.PublicView;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +33,6 @@ public class ServiceUserImpl implements InterServiceUser {
     @Autowired
     private InterDaoBike daoBike;
     @Override
-    @JsonView(PublicView.class)
     public User getUserById(Long id) throws  UnknownException {
         Transaction tx = daoUser.getSession().beginTransaction();
         User user;
@@ -64,7 +60,6 @@ public class ServiceUserImpl implements InterServiceUser {
         return entidad;
     }
     @Override
-    @JsonView(PublicView.class)
     public Collection<User> findAll() throws  UnknownException {
         Transaction tx = daoUser.getSession().beginTransaction();
         Collection<User> users;
@@ -192,7 +187,10 @@ public class ServiceUserImpl implements InterServiceUser {
     public Map<String, Object> findVehicles(Long userId) throws UnknownException {
         Transaction tx = daoUser.getSession().beginTransaction();
         try {
+
             User user = daoUser.findById(userId);
+            Hibernate.initialize(user.getBikes());
+            Hibernate.initialize(user.getCars());
             List<Bike> bikes = user.getBikes();
             List<Car> cars = user.getCars();
             Map<String, Object> result = new HashMap<>();

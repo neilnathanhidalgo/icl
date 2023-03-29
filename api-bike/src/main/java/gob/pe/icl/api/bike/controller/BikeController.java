@@ -4,18 +4,15 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.entity.Bike;
 import gob.pe.icl.service.inter.InterServiceBike;
-import gob.pe.icl.views.PublicView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 
 
 @RestController
 @RequestMapping("/bike")
-@JsonView(PublicView.class)
 public class BikeController {
     @Autowired
     InterServiceBike interServiceBike;

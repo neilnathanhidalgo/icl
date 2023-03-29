@@ -38,6 +38,26 @@
 					"response": []
 				},
 				{
+					"name": "Usuario por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/user/{userId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"user",
+								"{userId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Todos los usuarios",
 					"request": {
 						"method": "GET",
@@ -51,6 +71,55 @@
 							"port": "8090",
 							"path": [
 								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"NUEVO NOMBRE\",\r\n    \"email\": \"NUEVO CORREO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/user/{userId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"user",
+								"{userId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/user/{userId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"user",
+								"{userId}"
 							]
 						}
 					},
@@ -185,25 +254,6 @@
 			"name": "API CAR",
 			"item": [
 				{
-					"name": "Todos los autos",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8090/car",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8090",
-							"path": [
-								"car"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Guardar Auto",
 					"request": {
 						"method": "POST",
@@ -230,31 +280,100 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "API BIKE",
-			"item": [
+				},
 				{
-					"name": "Todas las motos",
+					"name": "Todos los autos",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8090/bike",
+							"raw": "http://localhost:8090/car",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8090",
 							"path": [
-								"bike"
+								"car"
 							]
 						}
 					},
 					"response": []
 				},
+				{
+					"name": "Car por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/car/{carId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"car",
+								"{carId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autilizar Auto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model\": \"NUEVO MODELO\",\r\n    \"brand\": \"NUEVA MARCA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/car/{carId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"car",
+								"{carId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Auto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/car/{carId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"car",
+								"{carId}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API BIKE",
+			"item": [
 				{
 					"name": "Guardar Moto",
 					"request": {
@@ -278,6 +397,94 @@
 							"port": "8090",
 							"path": [
 								"bike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Todas las motos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/bike",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"bike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Moto por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/bike/{bikeId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"bike",
+								"{bikeId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autilizar Moto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model\": \"NUEVO MODELO\",\r\n    \"brand\": \"NUEVA MARCA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/bike/{bikeId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"bike",
+								"{bikeId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Moto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/bike/{bikeId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"bike",
+								"{bikeId}"
 							]
 						}
 					},

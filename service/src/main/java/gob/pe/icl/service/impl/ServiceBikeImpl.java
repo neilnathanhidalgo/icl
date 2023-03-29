@@ -18,7 +18,6 @@ public class ServiceBikeImpl implements InterServiceBike {
 
     @Autowired
     private InterDaoBike dao;
-
     @Override
     public Bike getBikeById(Long id) throws UnknownException {
         Transaction tx = dao.getSession().beginTransaction();

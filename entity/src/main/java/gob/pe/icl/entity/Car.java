@@ -4,11 +4,9 @@
  */
 package gob.pe.icl.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
-import gob.pe.icl.views.PublicView;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,13 +25,11 @@ import java.io.Serializable;
 @Table(schema="develtrex",name = "car")
 public class Car extends GlobalEntityPkNumeric implements Serializable {
     @Column(name = "brand")
-    @JsonView(PublicView.class)
     private String brand;
     @Column(name = "model")
-    @JsonView(PublicView.class)
     private String model;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"cars"})
+    @JsonIgnore
     private User user;
 }

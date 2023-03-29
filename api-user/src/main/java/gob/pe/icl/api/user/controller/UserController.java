@@ -5,11 +5,7 @@ import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.entity.Bike;
 import gob.pe.icl.entity.Car;
 import gob.pe.icl.entity.User;
-import gob.pe.icl.service.impl.ServiceUserImpl;
 import gob.pe.icl.service.inter.InterServiceUser;
-import gob.pe.icl.views.BikeView;
-import gob.pe.icl.views.CarView;
-import gob.pe.icl.views.PublicView;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +29,6 @@ public class UserController {
         return ResponseEntity.ok(interServiceUser.saveUser(user));
     }
     @GetMapping("/{userId}")
-    @JsonView(PublicView.class)
     public ResponseEntity<User> getUserById(@PathVariable Long userId) throws UnknownException {
         User user = interServiceUser.getUserById(userId);
         if(user == null) {
@@ -42,7 +37,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
     @GetMapping()
-    @JsonView(PublicView.class)
     public ResponseEntity<Collection<User>> findAllUsers() throws UnknownException{
         if(interServiceUser.findAll().isEmpty())
             return ResponseEntity.notFound().build();
@@ -62,12 +56,9 @@ public class UserController {
         interServiceUser.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
-
-    // LLAMADAS FEIGN
-
+    // LLAMADAS
     @PostMapping("/savecar/{userId}")
     @CircuitBreaker(name = "api-car-dev", fallbackMethod = "fallbackPostCarMethod")
-    @JsonView(CarView.class)
     public ResponseEntity<Car> saveCar(@PathVariable("userId") Long userId, @RequestBody Car car) throws UnknownException {
         if(interServiceUser.getUserById(userId) == null)
             return ResponseEntity.notFound().build();
@@ -80,7 +71,6 @@ public class UserController {
     }
     @PostMapping("/savebike/{userId}")
     @CircuitBreaker(name = "api-bike-dev", fallbackMethod = "fallbackPostBikeMethod")
-    @JsonView(BikeView.class)
     public ResponseEntity<Bike> saveBike(@PathVariable("userId") Long userId, @RequestBody Bike bike) throws UnknownException {
         if(interServiceUser.getUserById(userId) == null)
             return ResponseEntity.notFound().build();
@@ -92,7 +82,6 @@ public class UserController {
         return ResponseEntity.badRequest().body("Ha ocurrido un problema al intentar enviar los datos.");
     }
     @GetMapping("/bikes/{userId}")
-    @JsonView(BikeView.class)
     @CircuitBreaker(name = "api-bike-dev", fallbackMethod = "fallbackGetMethod")
     public ResponseEntity<List<Bike>> findBikesByUserId(@PathVariable("userId") Long userId) throws UnknownException {
         if(interServiceUser.getUserById(userId) == null)
@@ -101,7 +90,6 @@ public class UserController {
         return ResponseEntity.ok(userBikes);
     }
     @GetMapping("/cars/{user_id}")
-    @JsonView(CarView.class)
     @CircuitBreaker(name = "api-car-dev", fallbackMethod = "fallbackGetMethod")
     public ResponseEntity<List<Car>> findCarsByUserId(@PathVariable("user_id") Long user_id) throws UnknownException {
         if(interServiceUser.getUserById(user_id) == null)
