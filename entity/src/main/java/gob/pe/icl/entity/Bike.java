@@ -4,10 +4,6 @@
  */
 package gob.pe.icl.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,11 +12,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
-/**
- *
- * @author Usuario
- */
 @Component
 @Scope("prototype")
 @Getter
@@ -33,8 +24,7 @@ public class Bike extends GlobalEntityPkNumeric implements Serializable {
     private String brand;
     @Column(name = "model")
     private String model;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnore
     private User user;
 }

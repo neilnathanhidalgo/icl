@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.entity.Car;
 import gob.pe.icl.service.inter.InterServiceCar;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 
 @RestController
@@ -17,9 +19,8 @@ public class CarController {
     InterServiceCar interServiceCar;
     @PostMapping()
     public ResponseEntity<Car> save(@RequestBody Car car) throws UnknownException {
-        Car carNew;
-        carNew = interServiceCar.saveCar(car);
-        return ResponseEntity.ok(carNew);
+        interServiceCar.saveCar(car);
+        return ResponseEntity.ok(car);
     }
     @GetMapping("/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable Long id) throws UnknownException {

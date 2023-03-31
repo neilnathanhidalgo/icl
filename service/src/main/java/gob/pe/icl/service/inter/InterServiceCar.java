@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.List;
 
 public interface InterServiceCar {
-
     Car getCarById(Long id) throws UnknownException;
     Collection<Car> findAllCars() throws UnknownException;
     Car saveCar(Car car) throws UnknownException;

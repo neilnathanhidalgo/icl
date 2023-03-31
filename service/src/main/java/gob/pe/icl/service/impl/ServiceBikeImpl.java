@@ -2,28 +2,31 @@ package gob.pe.icl.service.impl;
 
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.dao.inter.InterDaoBike;
+import gob.pe.icl.dao.inter.InterDaoUser;
 import gob.pe.icl.entity.Bike;
-import gob.pe.icl.entity.Car;
+import gob.pe.icl.entity.User;
 import gob.pe.icl.service.inter.InterServiceBike;
+import org.hibernate.Hibernate;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class ServiceBikeImpl implements InterServiceBike {
 
     @Autowired
-    private InterDaoBike dao;
+    private InterDaoBike daoBike;
+    @Autowired
+    private InterDaoUser daoUser;
     @Override
     public Bike getBikeById(Long id) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoBike.getSession().beginTransaction();
         Bike bike;
         try {
-            bike = dao.findById(id);
+            bike = daoBike.findById(id);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -33,10 +36,10 @@ public class ServiceBikeImpl implements InterServiceBike {
     }
     @Override
     public Collection<Bike> findAllBikes() throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoBike.getSession().beginTransaction();
         Collection<Bike> bikes;
         try {
-            bikes = dao.allFields();
+            bikes = daoBike.customFields("id, brand, model, version");
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -44,30 +47,32 @@ public class ServiceBikeImpl implements InterServiceBike {
         }
         return bikes;
     }
+
     @Override
     public Bike saveBike(Bike bike) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoBike.getSession().beginTransaction();
         try {
             bike.setIsPersistente(Boolean.TRUE);
             bike.setVersion((new Date()).getTime());
-            dao.save(bike);
+            daoBike.save(bike);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
+            ex.printStackTrace();
             throw new UnknownException(ServiceUserImpl.class, "No se a podido crear la moto");
         }
         return bike;
     }
     @Override
     public Bike updateBike(Bike bike) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoBike.getSession().beginTransaction();
         Bike updatedBike;
         try {
-            Bike existingBike = dao.findById(bike.getId());
+            Bike existingBike = daoBike.findById(bike.getId());
             existingBike.setBrand(bike.getBrand());
             existingBike.setModel(bike.getModel());
             existingBike.setVersion((new Date()).getTime());
-            dao.update(existingBike);
+            daoBike.update(existingBike);
             tx.commit();
             updatedBike = existingBike;
         } catch (Exception ex) {
@@ -78,11 +83,11 @@ public class ServiceBikeImpl implements InterServiceBike {
     }
     @Override
     public void deleteBike(Long id) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
+        Transaction tx = daoBike.getSession().beginTransaction();
         try {
-            Bike bike = dao.findById(id);
+            Bike bike = daoBike.findById(id);
             if (bike != null) {
-                dao.delete(bike);
+                daoBike.delete(bike);
                 tx.commit();
             } else {
                 throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar la moto con id " + id);

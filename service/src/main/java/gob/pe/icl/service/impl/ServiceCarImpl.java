@@ -2,9 +2,11 @@ package gob.pe.icl.service.impl;
 
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import gob.pe.icl.dao.inter.InterDaoCar;
+import gob.pe.icl.dao.inter.InterDaoUser;
+import gob.pe.icl.entity.Bike;
 import gob.pe.icl.entity.Car;
+import gob.pe.icl.entity.User;
 import gob.pe.icl.service.inter.InterServiceCar;
-import org.hibernate.Hibernate;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ public class ServiceCarImpl implements InterServiceCar {
 
     @Autowired
     private InterDaoCar daoCar;
+    @Autowired
+    private InterDaoUser daoUser;
 
     @Override
     public Car getCarById(Long id) throws UnknownException {
@@ -36,11 +40,11 @@ public class ServiceCarImpl implements InterServiceCar {
         Transaction tx = daoCar.getSession().beginTransaction();
         Collection<Car> cars;
         try {
-            cars = daoCar.allFields();
+            cars = daoCar.customFields("id, brand, model, version");
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
-            throw new UnknownException(ServiceUserImpl.class, "No se pudo obtener los autos");
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo obtener las motos");
         }
         return cars;
     }
@@ -50,11 +54,11 @@ public class ServiceCarImpl implements InterServiceCar {
         try {
             car.setIsPersistente(Boolean.TRUE);
             car.setVersion((new Date()).getTime());
-            Hibernate.initialize(car.getUser());
             daoCar.save(car);
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
+            ex.printStackTrace();
             throw new UnknownException(ServiceUserImpl.class, "No se a podido crear el aauto");
         }
         return car;

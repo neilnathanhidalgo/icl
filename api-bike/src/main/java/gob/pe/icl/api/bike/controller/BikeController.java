@@ -18,9 +18,8 @@ public class BikeController {
     InterServiceBike interServiceBike;
     @PostMapping()
     public ResponseEntity<Bike> save(@RequestBody Bike bike) throws UnknownException {
-        Bike bikeNew;
-        bikeNew = interServiceBike.saveBike(bike);
-        return ResponseEntity.ok(bikeNew);
+        interServiceBike.saveBike(bike);
+        return ResponseEntity.ok(bike);
     }
     @GetMapping("/{id}")
     public ResponseEntity<Bike> getBikeById(@PathVariable Long id) throws UnknownException {
