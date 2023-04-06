@@ -8,8 +8,11 @@ import gob.pe.icl.service.impl.ServiceUserImpl;
 import gob.pe.icl.service.inter.InterServiceUser;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.log4j.Log4j2;
+import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +30,7 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<User> save(@RequestBody User user) throws UnknownException {
-        User userNew;
-        userNew = interServiceUser.saveUser(user);
-        return ResponseEntity.ok(userNew);
+        return ResponseEntity.ok(interServiceUser.saveUser(user));
     }
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) throws UnknownException {
