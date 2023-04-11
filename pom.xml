@@ -24,7 +24,7 @@
         <module>api-car</module>
         <module>api-bike</module>
         <module>../jofrantoba-model-jpa</module>
-        <module>oauth2</module>
+        <module>oauth</module>
     </modules>
     <properties>
     </properties>
