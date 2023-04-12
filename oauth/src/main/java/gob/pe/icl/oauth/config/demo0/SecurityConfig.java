@@ -52,8 +52,8 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 @Configuration/*(proxyBeanMethods = false)*/
 public class SecurityConfig {
     
-    @Autowired
-    UserDetailsService details;
+    //@Autowired
+    //UserDetailsService details;
 
     //private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
@@ -135,24 +135,24 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /*@Bean
-    public UserDetailsService userDetailsService() {*/
+    @Bean
+    public UserDetailsService userDetailsService() {
         /*UserDetails userDetails = User.withDefaultPasswordEncoder()
                 .username("jofrantoba")
                 .password("jofrantoba")
                 .roles("USER")
                 .build();*/
-        /*UserDetails userDetails = User.withUsername("jofrantoba").password("jofrantoba").authorities("read")
+        UserDetails userDetails = User.withUsername("jofrantoba").password("jofrantoba").authorities("read")
                 .roles("USER")
                 .build();
 
         return new InMemoryUserDetailsManager(userDetails);
-    }*/
+    }
 
-    /*@Bean
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-    }*/
+    }
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
@@ -227,10 +227,10 @@ public class SecurityConfig {
         return new HttpSessionEventPublisher();
     }
     
-    @Autowired
+    /*@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(details);
         auth.authenticationProvider(provider);
-    }
+    }*/
 }
