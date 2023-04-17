@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +40,17 @@ public class UserController {
         User user = interServiceUser.getUserById(userId);
         return ResponseEntity.ok(user);
     }
+    @GetMapping("/{username}")
+    public ResponseEntity<User> findByUsername(@PathVariable String username) throws UnknownException {
+        if(interServiceUser.findByUsername(username) == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(interServiceUser.findByUsername(username));
+    }
     @GetMapping()
-    public ResponseEntity<List<User>> findAllUsers() throws UnknownException{
+    public ResponseEntity<Collection<User>> findAllUsers() throws UnknownException{
         if(interServiceUser.findAllUsers() == null)
             return ResponseEntity.notFound().build();
-        List<User> users = interServiceUser.findAllUsers();
+        Collection<User> users = interServiceUser.findAllUsers();
         return ResponseEntity.ok(users);
     }
     @PutMapping("/{userId}")

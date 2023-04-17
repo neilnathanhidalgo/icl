@@ -21,6 +21,9 @@ public class TestDaoUserInsert extends TestBaseDao{
         InterDaoUser dao = contextDao.getBean(DaoUser.class);
         entity.setName("Jin"); 
         entity.setEmail("prueba@mail.com");
+        entity.setUsername("jin23");
+        entity.setPassword("54321");
+        entity.setEnabled(Boolean.TRUE);
         Transaction tx=dao.getSession().beginTransaction();
         dao.save(entity);
         tx.commit();

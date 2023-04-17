@@ -12,7 +12,10 @@
         <exec.mainClass>gob.pe.icl.service.Service</exec.mainClass>
         <version.maven-source-plugin>3.2.1</version.maven-source-plugin>    
         <version.spring-context>5.3.14</version.spring-context>   
-        <version.slf4j-api>1.7.32</version.slf4j-api>    
+        <version.slf4j-api>1.7.32</version.slf4j-api>
+        <version.spring-security-oauth2-authorization-server>1.0.1</version.spring-security-oauth2-authorization-server>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
@@ -87,6 +90,11 @@
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
             <version>1.3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-authorization-server</artifactId>
+            <version>${version.spring-security-oauth2-authorization-server}</version>
         </dependency>
     </dependencies>
     <build>

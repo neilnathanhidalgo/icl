@@ -13,15 +13,11 @@ import gob.pe.icl.service.feign.BikeFeign;
 import gob.pe.icl.service.feign.CarFeign;
 import gob.pe.icl.service.inter.InterServiceUser;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.hibernate.Transaction;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 
 @Service
@@ -48,11 +44,25 @@ public class ServiceUserImpl implements InterServiceUser {
         return user;
     }
     @Override
+    public User findByUsername(String username) throws UnknownException {
+        Transaction tx = dao.getSession().beginTransaction();
+        User user;
+        try {
+            user = dao.findByUsername(username);
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo obtener el usuario con username " + username);
+        }
+        return user;
+    }
+    @Override
     public User saveUser(User entidad) throws UnknownException {
         Transaction tx = dao.getSession().beginTransaction();
         try {
             entidad.setIsPersistente(Boolean.TRUE);
             entidad.setVersion((new Date()).getTime());
+            entidad.setEnabled(Boolean.TRUE);
             dao.save(entidad);
             tx.commit();
         } catch (Exception ex) {
@@ -62,11 +72,11 @@ public class ServiceUserImpl implements InterServiceUser {
         return entidad;
     }
     @Override
-    public List<User> findAllUsers() throws  UnknownException {
+    public Collection<User> findAllUsers() throws  UnknownException {
         Transaction tx = dao.getSession().beginTransaction();
-        List<User> users;
+        Collection<User> users;
         try {
-            users = dao.findAllUsers();
+            users = dao.allFields();
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();

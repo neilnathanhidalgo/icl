@@ -28,4 +28,10 @@ public class User extends GlobalEntityPkNumeric implements Serializable{
     private String name;
     @Column(name = "email")
     private String email;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
 }

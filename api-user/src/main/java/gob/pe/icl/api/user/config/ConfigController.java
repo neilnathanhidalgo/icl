@@ -20,19 +20,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 @ComponentScan(basePackages = {"gob.pe.icl.service"})
 @EnableFeignClients(basePackages = "gob.pe.icl.service")
 @RibbonClient(name = "api-user-dev")
-//@EnableWebSecurity
-//@EnableResourceServer
 public class ConfigController extends WebSecurityConfigurerAdapter {
-
-    /*@Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
-                .antMatchers("/user/**")
-                .authenticated()
-                .and()
-                .oauth2Login();
-    }
-
-     */
 
 }

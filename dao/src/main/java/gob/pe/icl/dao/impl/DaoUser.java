@@ -3,6 +3,7 @@ package gob.pe.icl.dao.impl;
 
 import com.jofrantoba.model.jpa.daoentity.AbstractJpaDao;
 import gob.pe.icl.dao.inter.InterDaoUser;
+import gob.pe.icl.entity.Car;
 import gob.pe.icl.entity.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,10 +22,11 @@ public class DaoUser extends AbstractJpaDao<User>
     }
 
     @Override
-    public List<User> findAllUsers() {
+    public User findByUsername(String username) {
         return getCurrentSession()
-                .createQuery("SELECT c FROM User c", User.class)
-                .getResultList();
+                .createQuery("SELECT c FROM User c WHERE c.username = :username", User.class)
+                .setParameter("username", username)
+                .getSingleResult();
     }
 }
 
