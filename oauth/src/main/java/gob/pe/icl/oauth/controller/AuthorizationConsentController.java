@@ -27,22 +27,22 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author Usuario
  */
-@Controller
+//@Controller
 public class AuthorizationConsentController {
 	private final RegisteredClientRepository registeredClientRepository;
 	private final OAuth2AuthorizationConsentService authorizationConsentService;
 
 	public AuthorizationConsentController(RegisteredClientRepository registeredClientRepository,
-			OAuth2AuthorizationConsentService authorizationConsentService) {
+										  OAuth2AuthorizationConsentService authorizationConsentService) {
 		this.registeredClientRepository = registeredClientRepository;
 		this.authorizationConsentService = authorizationConsentService;
 	}
 
 	@GetMapping(value = "/oauth2/consent")
 	public String consent(Principal principal, Model model,
-			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
-			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
-			@RequestParam(OAuth2ParameterNames.STATE) String state) {
+						  @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+						  @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+						  @RequestParam(OAuth2ParameterNames.STATE) String state) {
 
 		// Remove scopes that were already approved
 		Set<String> scopesToApprove = new HashSet<>();

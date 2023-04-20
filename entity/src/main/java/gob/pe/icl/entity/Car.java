@@ -4,7 +4,6 @@
  */
 package gob.pe.icl.entity;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -14,17 +13,24 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+
 @Component
 @Scope("prototype")
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper=false)
 @Entity
-@Table(catalog="develtrex",schema="develtrex",name = "car")
+@Table(schema="develtrex",name = "car")
 public class Car extends GlobalEntityPkNumeric implements Serializable {
     @Column(name = "brand")
     private String brand;
     @Column(name = "model")
     private String model;
-    @Column(name = "userId")
-    private Long userId;
+    @ManyToOne()
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

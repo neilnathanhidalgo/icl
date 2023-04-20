@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+//import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
 import org.springframework.security.crypto.keygen.StringKeyGenerator;
 
@@ -20,11 +22,12 @@ import org.springframework.security.crypto.keygen.StringKeyGenerator;
  *
  * @author Usuario
  */
+@EnableFeignClients(basePackages = "gob.pe.icl.oauth")
 @Slf4j
 @RefreshScope
 @SpringBootApplication
 public class Application {
-    
+
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
         SpringApplication.run(Application.class, args);
@@ -32,16 +35,16 @@ public class Application {
         log.info("code verifier:"+codeVerifier);
         log.info("code_challenge:"+createCodeChallenge(codeVerifier));
     }
-    
+
     private static String createCodeChallenge(String value) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] digest = md.digest(value.getBytes(StandardCharsets.US_ASCII));
         return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
     }
-    
-    private static String createCodeVerifier(){        
+
+    private static String createCodeVerifier(){
         StringKeyGenerator secureKeyGenerator =
-        new Base64StringKeyGenerator(Base64.getUrlEncoder().withoutPadding(), 96);
+                new Base64StringKeyGenerator(Base64.getUrlEncoder().withoutPadding(), 96);
         return secureKeyGenerator.generateKey();
     }
 }

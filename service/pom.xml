@@ -14,8 +14,8 @@
         <version.spring-context>5.3.14</version.spring-context>   
         <version.slf4j-api>1.7.32</version.slf4j-api>
         <version.spring-security-oauth2-authorization-server>1.0.1</version.spring-security-oauth2-authorization-server>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>

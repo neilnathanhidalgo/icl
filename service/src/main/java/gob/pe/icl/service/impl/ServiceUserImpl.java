@@ -5,19 +5,22 @@
 package gob.pe.icl.service.impl;
 
 import com.jofrantoba.model.jpa.shared.UnknownException;
+import gob.pe.icl.dao.inter.InterDaoBike;
+import gob.pe.icl.dao.inter.InterDaoCar;
 import gob.pe.icl.dao.inter.InterDaoUser;
 import gob.pe.icl.entity.Bike;
 import gob.pe.icl.entity.Car;
 import gob.pe.icl.entity.User;
-import gob.pe.icl.service.feign.BikeFeign;
-import gob.pe.icl.service.feign.CarFeign;
 import gob.pe.icl.service.inter.InterServiceUser;
 
 import java.util.*;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.hibernate.Transaction;
+
+import javax.transaction.Transactional;
 
 
 @Service
@@ -26,9 +29,9 @@ public class ServiceUserImpl implements InterServiceUser {
     @Autowired
     private InterDaoUser dao;
     @Autowired
-    CarFeign carFeign;
+    private InterDaoCar daoCar;
     @Autowired
-    BikeFeign bikeFeign;
+    private InterDaoBike daoBike;
 
     @Override
     public User getUserById(Long id) throws  UnknownException {
@@ -44,17 +47,18 @@ public class ServiceUserImpl implements InterServiceUser {
         return user;
     }
     @Override
-    public User findByUsername(String username) throws UnknownException {
-        Transaction tx = dao.getSession().beginTransaction();
-        User user;
+    public User findUsername(String username)throws Exception{
         try {
-            user = dao.findByUsername(username);
+            Transaction tx=dao.getSession().beginTransaction();
+            String mapFilter="equal:username:"+username;
+            List<User> user = (List)dao.allFields(mapFilter, null);
             tx.commit();
+            return user.get(0);
         } catch (Exception ex) {
-            tx.rollback();
-            throw new UnknownException(ServiceUserImpl.class, "No se pudo obtener el usuario con username " + username);
+                UnknownException excepcion = new UnknownException(ServiceUserImpl.class, ex.getMessage(), ex);
+                excepcion.traceLog(true);
+            throw ex;
         }
-        return user;
     }
     @Override
     public User saveUser(User entidad) throws UnknownException {
@@ -62,7 +66,6 @@ public class ServiceUserImpl implements InterServiceUser {
         try {
             entidad.setIsPersistente(Boolean.TRUE);
             entidad.setVersion((new Date()).getTime());
-            entidad.setEnabled(Boolean.TRUE);
             dao.save(entidad);
             tx.commit();
         } catch (Exception ex) {
@@ -72,7 +75,7 @@ public class ServiceUserImpl implements InterServiceUser {
         return entidad;
     }
     @Override
-    public Collection<User> findAllUsers() throws  UnknownException {
+    public Collection<User> findAll() throws  UnknownException {
         Transaction tx = dao.getSession().beginTransaction();
         Collection<User> users;
         try {
@@ -119,40 +122,113 @@ public class ServiceUserImpl implements InterServiceUser {
             throw new UnknownException(ServiceUserImpl.class, "No se pudo eliminar el usuario con id " + userId);
         }
     }
+    @Override
     public Car saveCar(Long userId, Car car) throws UnknownException{
-        car.setUserId(userId);
-        return carFeign.saveCar(car);
+        Transaction tx = dao.getSession().beginTransaction();
+        try {
+            User user = dao.findById(userId);
+            if (user == null) {
+                throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar el usuario con id " + userId);
+            }
+            car.setUser(user);
+            car.setIsPersistente(Boolean.TRUE);
+            car.setVersion((new Date()).getTime());
+            daoCar.save(car);
+            tx.commit();
+            return car;
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo guardar el auto para el usuario con id " + userId);
+        }
     }
+    @Override
     public Bike saveBike(Long userId, Bike bike) throws UnknownException {
-        bike.setUserId(userId);
-        return bikeFeign.saveBike(bike);
+        Transaction tx = dao.getSession().beginTransaction();
+        try {
+            User user = dao.findById(userId);
+            if (user == null) {
+                throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar el usuario con id " + userId);
+            }
+            bike.setUser(user);
+            bike.setIsPersistente(Boolean.TRUE);
+            bike.setVersion((new Date()).getTime());
+            daoBike.save(bike);
+            tx.commit();
+            return bike;
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo guardar la moto para el usuario con id " + userId);
+        }
     }
+    @Override
+    @Transactional
+    public List<Car> findCarsByUserId(Long user_id) throws UnknownException {
+        Transaction tx = dao.getSession().beginTransaction();
+        try {
+            User user = dao.findById(user_id);
+            Hibernate.initialize(user.getCars());
+            List<Car> cars = user.getCars();
+            if (user == null) {
+                throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar el usuario con id " + user_id);
+            }
+
+            tx.commit();
+            return cars;
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo llamar la lista de motos para el usuario con id " + user_id);
+        }
+    }
+    @Override
+    @Transactional
     public List<Bike> findBikesByUserId(Long userId) throws UnknownException {
-        return bikeFeign.findBikesByUserId(userId);
+        Transaction tx = dao.getSession().beginTransaction();
+        try {
+            User user = dao.findById(userId);
+            Hibernate.initialize(user.getBikes());
+            List<Bike> bikes = user.getBikes();
+            if (user == null) {
+                throw new UnknownException(ServiceUserImpl.class, "No se pudo encontrar el usuario con id " + userId);
+            }
+            tx.commit();
+            return bikes;
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo llamar la lista de motos para el usuario con id " + userId);
+        }
+
     }
-    public List<Car> findCarsByUserId(Long userId) throws UnknownException {
-        return carFeign.findCarsByUserId(userId);
-    }
+    @Override
+    @Transactional
     public Map<String, Object> findVehicles(Long userId) throws UnknownException {
         Transaction tx = dao.getSession().beginTransaction();
-        User user = dao.findById(userId);
-        List<Bike> bikes = bikeFeign.findBikesByUserId(userId);
-        List<Car> cars = carFeign.findCarsByUserId(userId);
-        Map<String, Object> result = new HashMap<>();
-        if (user == null) {
-            result.put("Mensaje", "No existe el usuario");
-            return result;
-        }
-        result.put("User", user);
-        if(cars.isEmpty())
-            result.put("Mensaje", "Este usuario no tiene autos");
-        else
-            result.put("Cars", cars);
-        if(bikes.isEmpty())
-            result.put("Mensaje", "Este usuario no tiene motos");
-        else
-            result.put("Bikes", bikes);
+        try {
 
-        return result;
+            User user = dao.findById(userId);
+            Hibernate.initialize(user.getBikes());
+            Hibernate.initialize(user.getCars());
+            List<Bike> bikes = user.getBikes();
+            List<Car> cars = user.getCars();
+            Map<String, Object> result = new HashMap<>();
+            if (user == null) {
+                result.put("Mensaje", "No existe el usuario");
+                return result;
+            }
+            result.put("User", user);
+            if(cars.isEmpty())
+                result.put("Mensaje", "Este usuario no tiene autos");
+            else
+                result.put("Cars", cars);
+            if(bikes.isEmpty())
+                result.put("Mensaje", "Este usuario no tiene motos");
+            else
+                result.put("Bikes", bikes);
+            tx.commit();
+            return result;
+        } catch (Exception ex) {
+            tx.rollback();
+            throw new UnknownException(ServiceUserImpl.class, "No se pudo llamar la lista de Vehiculos para el usuario con id " + userId);
+        }
+
     }
 }

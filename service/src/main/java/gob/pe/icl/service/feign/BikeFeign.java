@@ -1,5 +1,5 @@
 package gob.pe.icl.service.feign;
-
+/*
 import com.jofrantoba.model.jpa.shared.UnknownException;
 import feign.FeignException;
 import gob.pe.icl.entity.Bike;
@@ -29,3 +29,5 @@ public interface BikeFeign {
     @GetMapping("/bike/user/{userId}")
     List<Bike> findBikesByUserId(@PathVariable("userId") Long userId) throws UnknownException;
 }
+
+ */

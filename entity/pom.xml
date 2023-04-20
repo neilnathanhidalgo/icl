@@ -10,11 +10,15 @@
     <packaging>jar</packaging>
     <properties>
         <exec.mainClass>gob.pe.icl.entity.Entity</exec.mainClass>
-        <version.maven-source-plugin>3.2.1</version.maven-source-plugin>      
-        <version.hibernate-core>5.4.32.Final</version.hibernate-core> 
+        <version.maven-source-plugin>3.2.1</version.maven-source-plugin>
+        <version.hibernate-core>5.4.32.Final</version.hibernate-core>
         <version.jakarta.validation-api>2.0.2</version.jakarta.validation-api>
-        <version.spring-context>5.3.14</version.spring-context>  
+        <version.spring-context>5.3.14</version.spring-context>
         <version.slf4j-api>1.7.32</version.slf4j-api>
+        <version.slf4j-simple>1.7.32</version.slf4j-simple>
+        <version.log4j-api>2.17.0</version.log4j-api>
+        <version.log4j-core>2.17.0</version.log4j-core>
+        <version.jackson-databind>2.13.1</version.jackson-databind>
     </properties>
     <dependencies>                                                        
         <dependency>
@@ -37,6 +41,31 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${version.slf4j-api}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${version.slf4j-simple}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${version.log4j-api}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${version.log4j-core}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${version.jackson-databind}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate5</artifactId>
+            <version>2.14.2</version>
         </dependency>
     </dependencies>
     <build>
